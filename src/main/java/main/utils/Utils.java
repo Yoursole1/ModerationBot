@@ -12,14 +12,31 @@ public class Utils {
     }
 
     public static String getDirPath() throws URISyntaxException {
-        String[] pathSections = getPath().split("/");
-        String DirPath = new String();
-        for(String section : pathSections){
-            if(section.contains(".jar")){
-                break;
+        if(getOperatingSystem().toLowerCase().contains("window")){
+            String[] pathSections = getPath().split(String.valueOf("\\\\".toCharArray()[0]));
+            String DirPath = new String();
+            for(String section : pathSections){
+                if(section.contains(".jar")){
+                    break;
+                }
+                DirPath+="/"+section;
             }
-            DirPath+="/"+section;
+            return DirPath.replace("//","/");
+        }else{
+            String[] pathSections = getPath().split("/");
+            String DirPath = new String();
+            for(String section : pathSections){
+                if(section.contains(".jar")){
+                    break;
+                }
+                DirPath+="/"+section;
+            }
+            return DirPath.replace("//","/");
         }
-        return DirPath.replace("//","/");
+
+    }
+
+    public static String getOperatingSystem() {
+        return System.getProperty("os.name");
     }
 }
