@@ -16,8 +16,10 @@ import java.util.Scanner;
 public class GuildMessageEvent extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent e){
         try{
-            if(IllegalWords.bannedWords.contains(e.getMessage().getContentRaw().toLowerCase())){
-                e.getMessage().delete().queue();
+            for(String string : e.getMessage().getContentRaw().split(" ")){
+                if(IllegalWords.bannedWords.contains(string)){
+                    e.getMessage().delete().queue();
+                }
             }
         }catch(net.dv8tion.jda.api.exceptions.InsufficientPermissionException exception){
             System.out.println("\033[0;31m" + "ERROR: Please give me Admin Permissions so I can moderate properly");
