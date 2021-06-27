@@ -4,6 +4,7 @@ import main.main;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -13,7 +14,7 @@ public class Utils {
 
     public static String getDirPath() throws URISyntaxException {
         if(getOperatingSystem().toLowerCase().contains("window")){
-            String[] pathSections = getPath().split(String.valueOf("\\\\".toCharArray()[0]));
+            String[] pathSections = getPath().split(Pattern.quote("\\"));
             String DirPath = new String();
             for(String section : pathSections){
                 if(section.contains(".jar")){
