@@ -32,6 +32,7 @@ public class main {
         try {
             sc = new Scanner(file);
         } catch (FileNotFoundException fileNotFoundException) {
+            System.out.println(file.getPath());
             System.out.println("\033[0;31m" + "ERROR: Please put a Config.txt file in the jar's directory");
             System.out.print("\033[0m");
             System.out.println("Stopped Bot Execution");
