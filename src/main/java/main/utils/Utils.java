@@ -13,7 +13,9 @@ public class Utils {
     }
 
     public static String getDirPath() throws URISyntaxException {
-        if(getOperatingSystem().toLowerCase().contains("window")){
+        if(getOperatingSystem().toLowerCase().contains("windows 10")){
+            System.out.println("\033[0;31m" + "ERROR: Starting on Operating System Mode: "+getOperatingSystem());
+            System.out.print("\033[0m");
             String[] pathSections = getPath().split(Pattern.quote("\\"));
             String DirPath = new String();
             for(String section : pathSections){
@@ -23,7 +25,9 @@ public class Utils {
                 DirPath+="/"+section;
             }
             return DirPath.replace("//","/");
-        }else{
+        }else if(getOperatingSystem().toLowerCase().contains("mac os x")){
+            System.out.println("\033[0;32m" + "Starting on Operating System Mode: "+getOperatingSystem());
+            System.out.print("\033[0m");
             String[] pathSections = getPath().split("/");
             String DirPath = new String();
             for(String section : pathSections){
@@ -33,7 +37,13 @@ public class Utils {
                 DirPath+="/"+section;
             }
             return DirPath.replace("//","/");
+        }else{
+            System.out.println("\033[0;31m" + "ERROR: Incompatible Operating System: "+getOperatingSystem());
+            System.out.print("\033[0m");
+            System.out.println("Stopped Bot Execution");
+            System.exit(1);
         }
+        return null;
 
     }
 

@@ -1,7 +1,8 @@
 package main.Events;
 
-import main.Data.IllegalWords;
+import main.Data.Data;
 import main.utils.Utils;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -17,7 +18,7 @@ public class GuildMessageEvent extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent e){
         try{
             for(String string : e.getMessage().getContentRaw().split(" ")){
-                if(IllegalWords.bannedWords.contains(string)){
+                if(Data.bannedWords.contains(string)){
                     e.getMessage().delete().queue();
                 }
             }

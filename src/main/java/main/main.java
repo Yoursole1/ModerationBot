@@ -1,25 +1,32 @@
 package main;
 
-import main.Data.IllegalWords;
+import main.Data.Data;
 import main.Events.GuildMessageEvent;
 import main.utils.Utils;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.Compression;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.dv8tion.jda.internal.JDAImpl;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class main {
     public static JDABuilder builder;
-    public static void main(String[] args) throws LoginException, URISyntaxException {
+    public static JDA jda = null;
+    public static void main(String[] args) throws LoginException, URISyntaxException, InterruptedException {
         String token = "";
 
         File file = null;
@@ -39,10 +46,10 @@ public class main {
         }
 
         while (Objects.requireNonNull(sc).hasNextLine()){
-            IllegalWords.bannedWords.add(sc.nextLine());
+            Data.bannedWords.add(sc.nextLine());
         }
 
-        for(String string : IllegalWords.bannedWords){
+        for(String string : Data.bannedWords){
             if(string.toLowerCase().contains("token")){
                 token = string.split(":")[1].replace(" ","");
                 break;
@@ -56,20 +63,41 @@ public class main {
             System.exit(1);
         }
 
-        for(String string : IllegalWords.bannedWords){
-            IllegalWords.bannedWords.set(IllegalWords.bannedWords.indexOf(string),string.toLowerCase());
-        }
-
         builder = JDABuilder.createDefault(token);
         builder.disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
+        builder.setChunkingFilter(ChunkingFilter.ALL);
         builder.setBulkDeleteSplittingEnabled(false);
         builder.setCompression(Compression.NONE);
         builder.setActivity(Activity.playing("Your messages"));
         builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
         builder.addEventListeners(new GuildMessageEvent());
-        builder.build();
+        jda = builder.build();
+        jda.awaitReady();
+
+        setupStaff();
 
 
 
+    }
+    public static void setupStaff(){
+        for(String string : Data.bannedWords){
+            if(string.toLowerCase().contains("moderators")){
+                Arrays.asList(string.split(":")[1].replace(" ", "").split(",")).forEach((k)-> {
+                    Guild guild = jda.getGuilds().get(0);
+                    Data.moderators.add(guild.getMemberByTag(k));
+                });
+            }
+        }
+        for(String string : Data.bannedWords){
+            if(string.toLowerCase().contains("admins")){
+                Arrays.asList(string.split(":")[1].replace(" ", "").split(",")).forEach((k)-> {
+                    Guild guild = jda.getGuilds().get(0);
+                    Data.admins.add(guild.getMemberByTag(k));
+                });
+            }
+        }
+        for(String string : Data.bannedWords){
+            Data.bannedWords.set(Data.bannedWords.indexOf(string),string.toLowerCase());
+        }
     }
 }
