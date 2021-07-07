@@ -51,6 +51,34 @@ public class Utils {
         return null;
 
     }
+    public static String getDirPathNoLog() throws URISyntaxException {
+        if(getOperatingSystem().toLowerCase().contains("windows 10")){
+            String[] pathSections = getPath().split(Pattern.quote("\\"));
+            String DirPath = new String();
+            for(String section : pathSections){
+                if(section.contains(".jar")){
+                    break;
+                }
+                DirPath+="/"+section;
+            }
+            return DirPath.replace("//","/");
+        }else if(getOperatingSystem().toLowerCase().contains("mac os x")){
+            String[] pathSections = getPath().split("/");
+            String DirPath = new String();
+            for(String section : pathSections){
+                if(section.contains(".jar")){
+                    break;
+                }
+                DirPath+="/"+section;
+            }
+            return DirPath.replace("//","/");
+        }else{
+            System.out.println("Stopped Bot Execution because Something Crashed Horribly...report this please");
+            System.exit(1);
+        }
+        return null;
+
+    }
 
     public static String getOperatingSystem() {
         return System.getProperty("os.name");

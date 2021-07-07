@@ -9,10 +9,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Objects;
@@ -38,12 +35,63 @@ public class GuildMessageEvent extends ListenerAdapter {
                         member = guild.getMemberByTag(e.getMessage().getContentRaw().split(" ")[1]);
 
                         if(member!=null){
+                            if(!Data.moderators.contains(member)){
+                                //*******************************
+                                //ADD USER TO DATA ARRAY AND CONFIG FILE
+                                String tag = e.getMessage().getContentRaw().split(" ")[1];
+                                String oldText = main.moderatorText;
+                                String newText = "";
+                                if(oldText.split(":").length>1&&oldText.split(":")[1].length()>4){
+                                    newText = oldText + "," + tag;
+                                }else{
+                                    newText = oldText + "" + tag;
+                                }
 
-                            //*******************************
-                            //ADD USER TO DATA ARRAY AND CONFIG FILE
-                            e.getChannel().sendMessage("worked").queue();
 
-                            //********************************
+                                try {
+                                    Scanner sc = new Scanner(new File(Utils.getDirPathNoLog()+"/Config.txt"));
+                                    StringBuffer buffer = new StringBuffer();
+                                    while (sc.hasNextLine()) {
+                                        buffer.append(sc.nextLine()+System.lineSeparator());
+                                    }
+                                    String fileContents = buffer.toString();
+                                    sc.close();
+                                    fileContents = fileContents.replaceAll(oldText, newText);
+                                    FileWriter writer = new FileWriter(Utils.getDirPathNoLog()+"/Config.txt");
+                                    writer.append(fileContents);
+                                    writer.flush();
+
+                                    Data.moderators.add(member);
+
+                                    Member finalMember = member;
+
+                                    e.getChannel().sendMessage(Utils.createEmbed(new HashMap<>(){{
+                                        put("Moderation Bot", finalMember.getAsMention() + " is now a moderator!");
+                                    }})).queue();
+
+                                } catch (FileNotFoundException | URISyntaxException fileNotFoundException) {
+
+
+                                    System.out.println("\033[0;31m" + "ERROR: You had the config file, but deleted it...why?????");
+                                    System.out.print("\033[0m");
+                                    e.getChannel().sendMessage(Utils.createEmbed(new HashMap<>(){{
+                                        put("Moderation Bot","You broke something, please check the bot's console");
+                                    }})).queue();
+                                } catch (IOException exception) {
+                                    System.out.println("\033[0;31m" + "ERROR: You had the config file, but deleted it...why?????");
+                                    System.out.print("\033[0m");
+                                    System.out.println("Please note that if you did not delete the config file this is the dev's fault, please contact us");
+
+                                }
+
+
+                                //********************************
+                            }else{
+                                e.getChannel().sendMessage(Utils.createEmbed(new HashMap<>(){{
+                                    put("Moderation Bot","This user is already a moderator!");
+                                }})).queue();
+                            }
+
                         }else{
                             e.getChannel().sendMessage(Utils.createEmbed(new HashMap<>(){{
                                 put("Moderation Bot","Please specify a real user (Case Sensitive)");
