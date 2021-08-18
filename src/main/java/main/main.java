@@ -1,6 +1,6 @@
 package main;
 
-import main.Data.Data;
+import main.model.Data;
 import main.Events.GuildMessageEvent;
 import main.utils.Utils;
 import net.dv8tion.jda.api.JDA;
@@ -11,17 +11,12 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.Compression;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import net.dv8tion.jda.internal.JDAImpl;
 
 import javax.security.auth.login.LoginException;
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class main {
     public static JDABuilder builder;

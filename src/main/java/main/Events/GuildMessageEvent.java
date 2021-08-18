@@ -1,19 +1,16 @@
 package main.Events;
 
-import main.Data.Data;
+import main.model.Data;
 import main.main;
 import main.utils.Utils;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.exceptions.HierarchyException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.io.*;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class GuildMessageEvent extends ListenerAdapter {
