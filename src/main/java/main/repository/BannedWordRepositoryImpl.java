@@ -9,12 +9,17 @@ public class BannedWordRepositoryImpl implements BannedWordRepository {
     }
 
     @Override
+    public void save(List<String> objects) {
+
+    }
+
+    @Override
     public void delete(String object) {
 
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Integer integer) {
 
     }
 
@@ -24,7 +29,7 @@ public class BannedWordRepositoryImpl implements BannedWordRepository {
     }
 
     @Override
-    public String get(int id) {
+    public String get(Integer integer) {
         return null;
     }
 

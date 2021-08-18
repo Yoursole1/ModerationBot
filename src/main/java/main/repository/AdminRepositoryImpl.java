@@ -11,12 +11,17 @@ public class AdminRepositoryImpl implements AdminRepository {
     }
 
     @Override
+    public void save(List<Member> objects) {
+
+    }
+
+    @Override
     public void delete(Member object) {
 
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Integer integer) {
 
     }
 
@@ -26,7 +31,7 @@ public class AdminRepositoryImpl implements AdminRepository {
     }
 
     @Override
-    public Member get(int id) {
+    public Member get(Integer integer) {
         return null;
     }
 

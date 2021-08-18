@@ -33,8 +33,8 @@ public class ModeratorRepositoryImpl implements ModeratorRepository {
     }
 
     @Override
-    public void delete(int id) {
-        this.database.remove(id);
+    public void delete(Integer id) {
+        this.database.remove(id.intValue());
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ModeratorRepositoryImpl implements ModeratorRepository {
     }
 
     @Override
-    public Member get(int id) {
+    public Member get(Integer id) {
         return this.database.get(id);
     }
 
