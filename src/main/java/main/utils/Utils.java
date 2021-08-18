@@ -1,5 +1,6 @@
 package main.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import main.main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -11,6 +12,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class Utils {
 
     public static String getPath() throws URISyntaxException {
@@ -19,8 +21,7 @@ public class Utils {
 
     public static String getDirPath() throws URISyntaxException {
         if(getOperatingSystem().toLowerCase().contains("windows 10")){
-            System.out.println("\033[0;31m" + "Starting on Operating System Mode: "+getOperatingSystem());
-            System.out.print("\033[0m");
+            log.info("Starting on Operating System Mode: "+getOperatingSystem());
             String[] pathSections = getPath().split(Pattern.quote("\\"));
             String DirPath = new String();
             for(String section : pathSections){
@@ -31,8 +32,7 @@ public class Utils {
             }
             return DirPath.replace("//","/");
         }else if(getOperatingSystem().toLowerCase().contains("mac os x")){
-            System.out.println("\033[0;32m" + "Starting on Operating System Mode: "+getOperatingSystem());
-            System.out.print("\033[0m");
+            log.info("Starting on Operating System Mode: "+getOperatingSystem());
             String[] pathSections = getPath().split("/");
             String DirPath = new String();
             for(String section : pathSections){
@@ -43,9 +43,8 @@ public class Utils {
             }
             return DirPath.replace("//","/");
         }else{
-            System.out.println("\033[0;31m" + "ERROR: Incompatible Operating System: "+getOperatingSystem());
-            System.out.print("\033[0m");
-            System.out.println("Stopped Bot Execution");
+            log.error("Incompatible Operating System: "+getOperatingSystem());
+            log.info("Stopped Bot Execution");
             System.exit(1);
         }
         return null;
@@ -73,7 +72,7 @@ public class Utils {
             }
             return DirPath.replace("//","/");
         }else{
-            System.out.println("Stopped Bot Execution because Something Crashed Horribly...report this please");
+            log.error("Stopped Bot Execution because Something Crashed Horribly...report this please");
             System.exit(1);
         }
         return null;

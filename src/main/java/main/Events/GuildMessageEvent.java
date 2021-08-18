@@ -1,5 +1,6 @@
 package main.Events;
 
+import lombok.extern.slf4j.Slf4j;
 import main.Data.Data;
 import main.main;
 import main.utils.Utils;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
 
+@Slf4j
 public class GuildMessageEvent extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent e){
 
@@ -75,18 +77,12 @@ public class GuildMessageEvent extends ListenerAdapter {
                                         }})).queue();
 
                                     } catch (FileNotFoundException | URISyntaxException fileNotFoundException) {
-
-
-                                        System.out.println("\033[0;31m" + "ERROR: You had the config file, but deleted it...why?????");
-                                        System.out.print("\033[0m");
+                                        log.error("You had the config file, but deleted it...why?????");
                                         e.getChannel().sendMessage(Utils.createEmbed(new HashMap<>(){{
                                             put("Moderation Bot","You broke something, please check the bot's console");
                                         }})).queue();
                                     } catch (IOException exception) {
-                                        System.out.println("\033[0;31m" + "ERROR: You had the config file, but deleted it...why?????");
-                                        System.out.print("\033[0m");
-                                        System.out.println("Please note that if you did not delete the config file this is the dev's fault, please contact us");
-
+                                        log.error("You had the config file, but deleted it...why?????");
                                     }
 
 
@@ -169,16 +165,12 @@ public class GuildMessageEvent extends ListenerAdapter {
                                     } catch (FileNotFoundException | URISyntaxException fileNotFoundException) {
 
 
-                                        System.out.println("\033[0;31m" + "ERROR: You had the config file, but deleted it...why?????");
-                                        System.out.print("\033[0m");
+                                        log.error("You had the config file, but deleted it...why?????");
                                         e.getChannel().sendMessage(Utils.createEmbed(new HashMap<>(){{
                                             put("Moderation Bot","You broke something, please check the bot's console");
                                         }})).queue();
                                     } catch (IOException exception) {
-                                        System.out.println("\033[0;31m" + "ERROR: You had the config file, but deleted it...why?????");
-                                        System.out.print("\033[0m");
-                                        System.out.println("Please note that if you did not delete the config file this is the dev's fault, please contact us");
-
+                                        log.error("You had the config file, but deleted it...why?????");
                                     }
 
 
@@ -256,16 +248,12 @@ public class GuildMessageEvent extends ListenerAdapter {
                                     } catch (FileNotFoundException | URISyntaxException fileNotFoundException) {
 
 
-                                        System.out.println("\033[0;31m" + "ERROR: You had the config file, but deleted it...why?????");
-                                        System.out.print("\033[0m");
+                                        log.error("You had the config file, but deleted it...why?????");
                                         e.getChannel().sendMessage(Utils.createEmbed(new HashMap<>(){{
                                             put("Moderation Bot","You broke something, please check the bot's console");
                                         }})).queue();
                                     } catch (IOException exception) {
-                                        System.out.println("\033[0;31m" + "ERROR: You had the config file, but deleted it...why?????");
-                                        System.out.print("\033[0m");
-                                        System.out.println("Please note that if you did not delete the config file this is the dev's fault, please contact us");
-
+                                        log.error("You had the config file, but deleted it...why?????");
                                     }
 
 
@@ -343,16 +331,12 @@ public class GuildMessageEvent extends ListenerAdapter {
                                     } catch (FileNotFoundException | URISyntaxException fileNotFoundException) {
 
 
-                                        System.out.println("\033[0;31m" + "ERROR: You had the config file, but deleted it...why?????");
-                                        System.out.print("\033[0m");
+                                        log.error("You had the config file, but deleted it...why?????");
                                         e.getChannel().sendMessage(Utils.createEmbed(new HashMap<>(){{
                                             put("Moderation Bot","You broke something, please check the bot's console");
                                         }})).queue();
                                     } catch (IOException exception) {
-                                        System.out.println("\033[0;31m" + "ERROR: You had the config file, but deleted it...why?????");
-                                        System.out.print("\033[0m");
-                                        System.out.println("Please note that if you did not delete the config file this is the dev's fault, please contact us");
-
+                                        log.error("You had the config file, but deleted it...why?????");
                                     }
 
 
@@ -429,8 +413,7 @@ public class GuildMessageEvent extends ListenerAdapter {
                 }
             }
         }catch(net.dv8tion.jda.api.exceptions.InsufficientPermissionException exception){
-            System.out.println("\033[0;31m" + "ERROR: Please give me Admin Permissions so I can moderate properly");
-            System.out.print("\033[0m");
+            log.error("Please give me Admin Permissions so I can moderate properly");
         }
     }
 }

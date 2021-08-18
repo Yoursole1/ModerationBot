@@ -1,5 +1,6 @@
 package main;
 
+import lombok.extern.slf4j.Slf4j;
 import main.Data.Data;
 import main.Events.GuildMessageEvent;
 import main.utils.Utils;
@@ -23,6 +24,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class main {
     public static JDABuilder builder;
     public static JDA jda = null;
@@ -39,15 +41,14 @@ public class main {
         try {
             file = new File(Utils.getDirPath()+"/Config.txt");
         } catch (URISyntaxException uriSyntaxException) {
-
+            log.error(uriSyntaxException.getMessage());
         }
         Scanner sc = null;
         try {
             sc = new Scanner(file);
         } catch (FileNotFoundException fileNotFoundException) {
-            System.out.println("\033[0;31m" + "ERROR: Please put a Config.txt file in the jar's directory");
-            System.out.print("\033[0m");
-            System.out.println("Stopped Bot Execution");
+            log.error("Please put a Config.txt file in the jar's directory");
+            log.info("Stopped Bot Execution");
             System.exit(1);
         }
 
@@ -63,9 +64,8 @@ public class main {
         }
 
         if(token.equalsIgnoreCase("")){
-            System.out.println("\033[0;31m" + "ERROR: Please enter a bot token");
-            System.out.print("\033[0m");
-            System.out.println("Stopped Bot Execution");
+            log.error("ERROR: Please enter a bot token");
+            log.info("Stopped Bot Execution");
             System.exit(1);
         }
 
