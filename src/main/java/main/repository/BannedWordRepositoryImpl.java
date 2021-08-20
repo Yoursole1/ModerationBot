@@ -1,40 +1,27 @@
 package main.repository;
 
-import java.util.List;
+import lombok.Getter;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+@Getter
 public class BannedWordRepositoryImpl implements BannedWordRepository {
-    @Override
-    public void save(String object) {
+    private final Path databasePath;
+    private static BannedWordRepositoryImpl instance;
 
+    public BannedWordRepositoryImpl(Path databasePath) {
+        this.databasePath = databasePath;
     }
 
-    @Override
-    public void save(List<String> objects) {
-
+    public BannedWordRepositoryImpl() {
+        this(Paths.get("", "bannedwords.txt").toAbsolutePath().normalize());
     }
 
-    @Override
-    public void delete(String object) {
-
-    }
-
-    @Override
-    public void delete(Integer integer) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public String get(Integer integer) {
-        return null;
-    }
-
-    @Override
-    public List<String> getAll() {
-        return null;
+    public static synchronized BannedWordRepositoryImpl getInstance() {
+        if (instance == null) {
+            instance = new BannedWordRepositoryImpl();
+        }
+        return instance;
     }
 }

@@ -1,54 +1,28 @@
 package main.repository;
 
-import net.dv8tion.jda.api.entities.Member;
+import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+@Getter
 public class ModeratorRepositoryImpl implements ModeratorRepository {
 
-    private List<Member> database;
+    private final Path databasePath;
+    private static ModeratorRepositoryImpl instance;
 
-    public ModeratorRepositoryImpl(List<Member> database) {
-        this.database = new ArrayList<>(database);
+    public ModeratorRepositoryImpl(Path databasePath) {
+        this.databasePath = databasePath;
     }
 
-    public ModeratorRepositoryImpl() {
-        new ModeratorRepositoryImpl(new ArrayList<>());
+    private ModeratorRepositoryImpl() {
+        this(Paths.get("", "moderators.txt").toAbsolutePath().normalize());
     }
 
-    @Override
-    public void save(Member member) {
-        this.database.add(member);
-    }
-
-    @Override
-    public void save(List<Member> members) {
-        this.database.addAll(members);
-    }
-
-    @Override
-    public void delete(Member member) {
-        this.database.remove(member);
-    }
-
-    @Override
-    public void delete(Integer id) {
-        this.database.remove(id.intValue());
-    }
-
-    @Override
-    public void deleteAll() {
-        this.database.clear();
-    }
-
-    @Override
-    public Member get(Integer id) {
-        return this.database.get(id);
-    }
-
-    @Override
-    public List<Member> getAll() {
-        return new ArrayList<>(this.database);
+    public static synchronized ModeratorRepositoryImpl getInstance() {
+        if (instance == null) {
+            instance = new ModeratorRepositoryImpl();
+        }
+        return instance;
     }
 }

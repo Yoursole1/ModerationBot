@@ -1,4 +1,4 @@
 package main.repository;
 
-public interface BannedWordRepository extends Repository<String, Integer> {
+public interface BannedWordRepository extends StaticFileRepository {
 }

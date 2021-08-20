@@ -19,13 +19,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 public class main {
-    public static JDABuilder builder;
-    public static JDA jda = null;
-    public static int modLine = -1;
-    public static int adminLine = -1;
-    public static String moderatorText = new String();
-    public static String adminText = new String();
-
+    public static final JDA jda = JDAService.getInstance().getJda();
 
     public static void main(String[] args) throws LoginException, URISyntaxException, InterruptedException {
         String token = "";
@@ -79,41 +73,5 @@ public class main {
 
 
 
-    }
-    public static void setupStaff(){
-        int i = 0;
-        for(String string : Data.bannedWords){
-            if(string.toLowerCase().contains("moderators")){
-                modLine = i;
-                moderatorText = string;
-                if(string.split(":").length>1&&string.split(":")[1].length()>4){
-                    Arrays.asList(string.split(":")[1].replace(" ", "").split(",")).forEach((k)-> {
-                        Guild guild = jda.getGuilds().get(0);
-                        Data.moderators.add(guild.getMemberByTag(k));
-                    });
-                }
-                break;
-            }
-            i++;
-        }
-        i = 0;
-        for(String string : Data.bannedWords){
-            if(string.split(":").length>1&&string.toLowerCase().contains("admins")){
-                adminLine = i;
-                adminText = string;
-                if(string.split(":")[1].length()>4){
-                    Arrays.asList(string.split(":")[1].replace(" ", "").split(",")).forEach((k)-> {
-                        Guild guild = jda.getGuilds().get(0);
-                        Data.admins.add(guild.getMemberByTag(k));
-                    });
-                }
-
-                break;
-            }
-            i++;
-        }
-        for(String string : Data.bannedWords){
-            Data.bannedWords.set(Data.bannedWords.indexOf(string),string.toLowerCase());
-        }
     }
 }

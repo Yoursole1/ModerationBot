@@ -1,25 +1,18 @@
 package main.service;
 
 import main.repository.Repository;
-import net.dv8tion.jda.api.JDA;
 
 import java.io.Serializable;
 import java.util.List;
 
 public interface Service<T, ID extends Serializable> {
-    Repository<T, ID> getRepository();
+    <R extends Repository<T, ID>> R getRepository();
 
-    default void add(T object) {
-        getRepository().save(object);
-    }
+    void add(T object);
 
-    default void add(List<T> objects) {
-        getRepository().save(objects);
-    }
+    void add(List<T> objects);
 
-    default void remove(T object) {
-        getRepository().delete(object);
-    }
+    void remove(T object);
 
     default void remove(ID id) {
         getRepository().delete(id);
@@ -29,11 +22,7 @@ public interface Service<T, ID extends Serializable> {
         getRepository().deleteAll();
     }
 
-    default T find(ID id) {
-        return getRepository().get(id);
-    }
+    T find(ID id);
 
-    default List<T> findAll() {
-        return getRepository().getAll();
-    }
+    List<T> findAll();
 }

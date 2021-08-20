@@ -1,42 +1,27 @@
 package main.repository;
 
-import net.dv8tion.jda.api.entities.Member;
+import lombok.Getter;
 
-import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+@Getter
 public class AdminRepositoryImpl implements AdminRepository {
-    @Override
-    public void save(Member object) {
+    private final Path databasePath;
+    private static AdminRepositoryImpl instance;
 
+    public AdminRepositoryImpl(Path databasePath) {
+        this.databasePath = databasePath;
     }
 
-    @Override
-    public void save(List<Member> objects) {
-
+    public AdminRepositoryImpl() {
+        this(Paths.get("", "admins.txt").toAbsolutePath().normalize());
     }
 
-    @Override
-    public void delete(Member object) {
-
-    }
-
-    @Override
-    public void delete(Integer integer) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public Member get(Integer integer) {
-        return null;
-    }
-
-    @Override
-    public List<Member> getAll() {
-        return null;
+    public static synchronized AdminRepositoryImpl getInstance() {
+        if (instance == null) {
+            instance = new AdminRepositoryImpl();
+        }
+        return instance;
     }
 }
